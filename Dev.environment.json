@@ -1,0 +1,24 @@
+{
+	"id": "fe4d2225-646c-4d3f-8fb9-064110c9eab0",
+	"name": "Dev",
+	"values": [
+		{
+			"key": "collection_id",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "collection_name",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "collection_uid",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-01-13T06:43:01.663Z",
+	"_postman_exported_using": "Postman/6.7.1"
+}

@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "60762940-e2a8-4fdb-8d8e-d9d45ccede77",
+		"name": "Postman Collections API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All Collections",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a730276b-2050-4dd9-9735-f7419fc31e12",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    // assert that the status code is 200",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"response should be okay to process\", function () { ",
+							"    // assert that the there is no error in response",
+							"    pm.response.to.not.be.error; ",
+							"    // assert that the response is valid JSON",
+							"    pm.response.to.be.json;",
+							"    // assert that the response Body does not contain error",
+							"    pm.response.to.not.have.jsonBody(\"error\"); ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Api-Key",
+						"value": "{{X-Api-Key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.getpostman.com/collections",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Collection",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "90a4c4ef-f087-4dd0-a214-c92bd6e69025",
+						"exec": [
+							"(function setCollection_name () {",
+							"    // set collection name to environment vairable collection_name",
+							"    let collection_name = \"Collection \" + Math.random().toString(36).substring(10);",
+							"    console.log(collection_name)",
+							"    pm.environment.set('collection_name', collection_name);",
+							"})();"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1ed69cf-d5ae-4e40-be8b-d01a5b01f1a3",
+						"exec": [
+							"(function setCollectionUid () {",
+							"    // set collection uid to environment vairable collection_uid",
+							"    let cdata = pm.response.json();",
+							"    console.log(cdata.collection.uid)",
+							"    pm.environment.set(\"collection_uid\", cdata.collection.uid);",
+							"    pm.environment.set(\"collection_id\", cdata.collection.id);",
+							"})();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    // assert that the status code is 200",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Validate Collection Name\", function () {",
+							"    // assert that collection name is equal to environment vairable collection name",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.collection.name).to.eql(pm.environment.get(\"collection_name\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Api-Key",
+						"value": "{{X-Api-Key}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collection\": {\r\n    \"info\": {\r\n      \"name\": \"{{collection_name}}\",\r\n      \"description\": \"This is just a sample collection.\",\r\n      \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\r\n    },\r\n    \"item\": [\r\n      {\r\n        \"name\": \"This is a folder\",\r\n        \"item\": [\r\n          {\r\n            \"name\": \"Sample POST Request\",\r\n            \"request\": {\r\n              \"url\": \"https://postman-echo.com/post\",\r\n              \"method\": \"POST\",\r\n              \"header\": [\r\n                {\r\n                  \"key\": \"Content-Type\",\r\n                  \"value\": \"application/json\"\r\n                }\r\n              ],\r\n              \"body\": {\r\n                \"mode\": \"raw\",\r\n                \"raw\": \"{\\\"data\\\": \\\"123\\\"}\"\r\n              },\r\n              \"description\": \"This is a sample POST Request\"\r\n            }\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"name\": \"Sample GET Request\",\r\n        \"request\": {\r\n          \"url\": \"https://postman-echo/get\",\r\n          \"method\": \"GET\",\r\n          \"description\": \"This is a sample GET Request\"\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://api.getpostman.com/collections",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b0070016-8e0d-4d31-b6a1-d1671bcaff0c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    // assert that the status code is 200",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Validate Postman uid\", function () {",
+							"    // assert that postman id is equal to environment vairable collection id",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.collection.info._postman_id).to.eql(pm.environment.get(\"collection_id\"));",
+							"});",
+							"",
+							"pm.test(\"Validate Collection name\", function () {",
+							"    // assert that collection name is equal to environment vairable collection name",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.collection.info.name).to.eql(pm.environment.get(\"collection_name\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Api-Key",
+						"value": "{{X-Api-Key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections",
+						"{{collection_uid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad118955-fe85-46b9-ad82-087d9554fa0e",
+						"exec": [
+							"pm.test(\"Validate Collection id\", function () {",
+							"    // assert that Collection id is equal to environment vairable collection id",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.collection.id).to.eql(pm.environment.get(\"collection_id\"));",
+							"});",
+							"",
+							"pm.test(\"Validate Collection uid\", function () {",
+							"    // assert that Collection uid is equal to environment vairable collection uid",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.collection.uid).to.eql(pm.environment.get(\"collection_uid\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-Api-Key",
+						"value": "{{X-Api-Key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections",
+						"{{collection_uid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleted Collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b0070016-8e0d-4d31-b6a1-d1671bcaff0c",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    // assert that the status code is 404 Not Found",
+							"    pm.response.to.have.status(404);",
+							"    pm.response.to.have.status(\"Not Found\");",
+							"});",
+							"",
+							"pm.test(\"Response should be error\", function () {",
+							"    // assert that the resource is an error",
+							"    pm.response.to.have.error;",
+							"});",
+							"",
+							"pm.test(\"Validate error name\", function () {",
+							"    // assert that error name is equal to instanceNotFoundError",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error.name).to.eql(\"instanceNotFoundError\");",
+							"});",
+							"",
+							"pm.test(\"Validate error message\", function () {",
+							"    // assert that error message is equal to Instance not found in the database.",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error.message).to.eql(\"Instance not found in the database.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Api-Key",
+						"value": "{{X-Api-Key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections",
+						"{{collection_uid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f8e86c1d-fe98-4a6a-8869-da41d3c89424",
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"    key: 'X-Api-Key',",
+					"    value: `Token ${pm.environment.get('6d5323cf87034ddca5c79e9e1da046f5')}`",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0e144a5a-7e73-420b-bd5d-17207e497375",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e975e43d-e1df-4c71-9797-5480af9eb689",
+			"key": "X-Api-Key",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
