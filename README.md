@@ -29,4 +29,4 @@ $ npm install -g newman-reporter-html
 3. Set API Key as X-API-Key value as collection variable
 
 ## Step 4. Run the Postman Test using Newman
-`$ newman run "Postman Collections API.postman_collection.json" -e Dev.environment.json -r cli,html --reporter-html-temple templates/htmlreqres.hbs --reporter-html-export reports/my_report.html`
+`$ newman run -e Dev.environment.json --reporters cli,html --reporter-html-template templates/htmlreqres.hbs --reporter-html-export reports/my_report.html "Postman Collections.json"`
