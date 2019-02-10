@@ -4,7 +4,7 @@ This is a sample implementation of API test in postman with javascript
 
 Follow the steps below to download and run this project.
 
-## Depedencies
+## Dependencies
 
 Install these prerequisites to follow along with the tutorial. See free video tutorial or a full explanation of each prerequisite.
 
