@@ -27,5 +27,6 @@ $ npm install -g newman-reporter-html
 
 ## Step 3. Run the Postman Test using Newman
 ```
-$ newman run -e Dev.environment.json --reporters cli,html --reporter-html-template templates/htmlreqres.hbs --reporter-html-export reports/my_report.html "Postman Collections.json"
+$ newman run -e Dev.environment.json --reporters cli,html --reporter-html-template templates/htmlreqres.hbs
+--reporter-html-export reports/my_report.html "Postman Collections.json"
 ```
